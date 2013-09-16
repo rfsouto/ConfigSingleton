@@ -1,1 +1,6 @@
 C:\Proyectos\ConfigSingleton\ConfigSingleton\bin\Debug\ConfigSingleton.exe.config
+C:\Proyectos\ConfigSingleton\ConfigSingleton\bin\Debug\ConfigSingleton.exe
+C:\Proyectos\ConfigSingleton\ConfigSingleton\bin\Debug\ConfigSingleton.pdb
+C:\Proyectos\ConfigSingleton\ConfigSingleton\obj\Debug\ConfigSingleton.csprojResolveAssemblyReference.cache
+C:\Proyectos\ConfigSingleton\ConfigSingleton\obj\Debug\ConfigSingleton.exe
+C:\Proyectos\ConfigSingleton\ConfigSingleton\obj\Debug\ConfigSingleton.pdb

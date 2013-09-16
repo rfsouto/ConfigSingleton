@@ -113,19 +113,25 @@ namespace ConfigSingleton
 		
 		private static void LoadConfigs(){
             //Carga Inicial de las configs desde el fichero. 
+            ValidarArchivoConfig();
             XDocument xdoc = XDocument.Load(_filexml);
             xdoc.Element("Root").Descendants().ToList().ForEach(elem => Instancia.AddConfig(new Config( elem.Name.ToString(),elem.Value)));
 		}
 
-        public void PersistConfigs(){
-            XDocument xdoc;
+        private static void ValidarArchivoConfig()
+        {
             //Comprobamos si existe el archivo
             if (!System.IO.File.Exists(_filexml))
             {
-                xdoc = new XDocument(new XElement("Root"));
+                XDocument xdoc = new XDocument(new XElement("Root"));
                 xdoc.Save(_filexml);
             }
-            xdoc = XDocument.Load(_filexml);
+        }
+
+        public void PersistConfigs(){
+            //Comprobamos si existe el archivo
+            ValidarArchivoConfig();
+            XDocument xdoc = XDocument.Load(_filexml);
             //Hacemos que las configuraciones establecidas se conviertan en persistentes. 
             xdoc = XDocument.Load(_filexml);
             XElement root = xdoc.Element("Root");
