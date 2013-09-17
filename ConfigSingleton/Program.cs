@@ -9,7 +9,7 @@ namespace ConfigSingleton
 {
     class Program
     {
-        
+
         static void Main(string[] args)
         {
             String leido = String.Empty;
@@ -90,48 +90,52 @@ namespace ConfigSingleton
         private static string _filexml = "config.xml";
         //Los ejemplos indican que hay que igualarla a null. 
         private static GestorConfig _instancia;
-        private static List<Config> _configs; 
-		
-		static GestorConfig()
+        private List<Config> _configs;
+        private XDocument xdoc;
+
+        GestorConfig()
         {
             //Inicializamos el listado de las configs y cargamos las que tuviéramos en el fichero config.xml si existe. 
             _configs = new List<Config>();
-            LoadConfigs();
         }
-		
-		//Propiedad accesible para recuperar la instancia de la clase o crearla si no existe. 
+
+        //Propiedad accesible para recuperar la instancia de la clase o crearla si no existe. 
         public static GestorConfig Instancia
         {
             get
             {
                 if (_instancia == null)
+                {
                     _instancia = new GestorConfig();
+                    _instancia.LoadConfigs();
+                }
 
                 return _instancia;
             }
         }
-		
-		private static void LoadConfigs(){
+
+        private void LoadConfigs()
+        {
             //Carga Inicial de las configs desde el fichero. 
             ValidarArchivoConfig();
-            XDocument xdoc = XDocument.Load(_filexml);
-            xdoc.Element("Root").Descendants().ToList().ForEach(elem => Instancia.AddConfig(new Config( elem.Name.ToString(),elem.Value)));
-		}
+            xdoc = XDocument.Load(_filexml);
+            xdoc.Element("Root").Descendants().ToList().ForEach(elem => _instancia.AddConfig(new Config(elem.Name.ToString(), elem.Value)));
+        }
 
-        private static void ValidarArchivoConfig()
+        private void ValidarArchivoConfig()
         {
             //Comprobamos si existe el archivo
             if (!System.IO.File.Exists(_filexml))
             {
-                XDocument xdoc = new XDocument(new XElement("Root"));
+                xdoc = new XDocument(new XElement("Root"));
                 xdoc.Save(_filexml);
             }
         }
 
-        public void PersistConfigs(){
+        public void PersistConfigs()
+        {
             //Comprobamos si existe el archivo
             ValidarArchivoConfig();
-            XDocument xdoc = XDocument.Load(_filexml);
             //Hacemos que las configuraciones establecidas se conviertan en persistentes. 
             xdoc = XDocument.Load(_filexml);
             XElement root = xdoc.Element("Root");
@@ -171,5 +175,5 @@ namespace ConfigSingleton
         public String Value { get; set; }
     }
 
-    
+
 }
